@@ -1,6 +1,8 @@
 package com.sujal.springboot.myFirstWebApp.todo;
 
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -25,14 +27,15 @@ public class TodoController {
 
     @RequestMapping("todo-list")
     public String getTodos(ModelMap model) {
-        List<Todo> todos = todoService.findByUsername("sujal");
+        String username = getLoggedInUserName();
+        List<Todo> todos = todoService.findByUsername(username);
         model.addAttribute("todos",todos);
         return "todos";
     }
 
     @RequestMapping(value="add-todo", method = RequestMethod.GET)
     public String showMeNewTodoPage(Model model) {
-        String username = (String) model.getAttribute("name");
+        String username = getLoggedInUserName();
         Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
         model.addAttribute("todo", todo); // clearer than model.put
         return "add-todo";
@@ -44,7 +47,7 @@ public class TodoController {
         if(result.hasErrors()){
             return "add-todo";
         }
-        String username = model.get("name").toString();
+        String username = getLoggedInUserName();
         todoService.addTodo(username, todo.getDescription(), todo.getTargetDate(), false);
         return "redirect:todo-list";
     }
@@ -67,10 +70,14 @@ public class TodoController {
         if(result.hasErrors()){
             return "add-todo";
         }
-        String username = model.get("name").toString();
+        String username = getLoggedInUserName();
         todo.setUserName(username);
         todoService.updateTodo(todo);
         return "redirect:todo-list";
     }
 
+    public String getLoggedInUserName(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
 }
