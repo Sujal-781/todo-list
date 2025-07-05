@@ -3,7 +3,6 @@ package com.sujal.springboot.myFirstWebApp.todo;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,13 +14,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+//@Controller
 @SessionAttributes("name")
 public class TodoController {
 
-    private todoService todoService;
+    private TodoService todoService;
 
-    public TodoController(todoService todoService) {
+    public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
 
@@ -71,7 +70,7 @@ public class TodoController {
             return "add-todo";
         }
         String username = getLoggedInUserName();
-        todo.setUserName(username);
+        todo.setUsername(username);
         todoService.updateTodo(todo);
         return "redirect:todo-list";
     }

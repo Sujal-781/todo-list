@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
-public class todoService {
+public class TodoService {
 
     private static List<Todo> todoList = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class todoService {
     }
 
     public List<Todo> findByUsername(String username) {
-        Predicate<? super Todo> predicate = todo -> todo.getUserName().equalsIgnoreCase(username);
+        Predicate<? super Todo> predicate = todo -> todo.getUsername().equalsIgnoreCase(username);
         return todoList.stream().filter(predicate).collect(Collectors.toList());
     }
 

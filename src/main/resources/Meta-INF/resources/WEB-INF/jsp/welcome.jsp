@@ -6,7 +6,7 @@
             <h1 class="card-title display-4 text-primary">Welcome, ${name}!</h1>
             <p class="card-text fs-5">We're glad to have you here.</p>
             <p class="card-text text-muted">Your name is <strong>${name}</strong>.</p>
-            <a href="todo-list" class="btn btn-success btn-lg mt-3">Manage Your Todos</a>
+            <a href="list-todos" class="btn btn-success btn-lg mt-3">Manage Your Todos</a>
         </div>
     </div>
 </div>
